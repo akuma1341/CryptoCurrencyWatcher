@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>New user</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/createUser}" th:object="${user}">
+  <label for="name">Enter name</label>
+  <input type="text" th:field="*{name}" id="name">
+
+  <p>
+    <label for="theCurrency">Choose currency: </label>
+    <select th:field="*{price}" name="select" id="theCurrency">
+      <option th:each="currentPrice : ${prices}" th:text="${currentPrice.currency.symbol}" th:value="${currentPrice.id}">Currency</option>
+    </select>
+  </p>
+
+  <input type="submit" value="Create"/>
+</form>
+</body>
+</html>
