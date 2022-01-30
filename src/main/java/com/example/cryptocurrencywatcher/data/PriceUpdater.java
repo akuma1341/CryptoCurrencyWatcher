@@ -41,7 +41,7 @@ public class PriceUpdater {
         }
     }
 
-    public void checkPriceChanges() {
+    public void checkPriceChangesForUsers() {
         for (User user : userRepository.findAll()) {
 
             Price price = priceService.getPriceById(user.getPrice().getId());
@@ -50,7 +50,8 @@ public class PriceUpdater {
             double percent = changesInPercent(userStartPrice, currentPrice);
 
             if (Math.abs(percent) >= 1)
-                LOGGER.warn(price.getCurrency().getSymbol() + "|" + user.getName() + "|" + percent);
+                LOGGER.warn(String.format("%s|%s|%.2f",
+                        price.getCurrency().getSymbol(), user.getName(), percent));
         }
     }
 
