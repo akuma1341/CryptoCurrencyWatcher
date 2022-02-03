@@ -1,6 +1,7 @@
 package com.example.cryptocurrencywatcher;
 
 import com.example.cryptocurrencywatcher.data.UpdaterThread;
+import com.example.cryptocurrencywatcher.services.CurrencyPricesService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

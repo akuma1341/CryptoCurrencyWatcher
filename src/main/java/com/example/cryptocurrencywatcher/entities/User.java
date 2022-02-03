@@ -2,6 +2,7 @@ package com.example.cryptocurrencywatcher.entities;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -11,9 +12,17 @@ public class User {
     private Integer id;
     private String name;
 
-    @OneToOne()
-    @JoinColumn(name = "id_price", referencedColumnName = "id")
-    private Price price;
+    @OneToMany(mappedBy = "user")
+    private Set<UsersCurrencyPrice> usersCurrencyPrices;
+
+    public User(Integer id, String name, Set<UsersCurrencyPrice> usersCurrencyPrices) {
+        this.id = id;
+        this.name = name;
+        this.usersCurrencyPrices = usersCurrencyPrices;
+    }
+
+    public User() {
+    }
 
     public Integer getId() {
         return id;
@@ -31,12 +40,12 @@ public class User {
         this.name = name;
     }
 
-    public Price getPrice() {
-        return price;
+    public Set<UsersCurrencyPrice> getUsersCurrencyPrices() {
+        return usersCurrencyPrices;
     }
 
-    public void setPrice(Price price) {
-        this.price = price;
+    public void setUsersCurrencyPrices(Set<UsersCurrencyPrice> usersCurrencyPrices) {
+        this.usersCurrencyPrices = usersCurrencyPrices;
     }
 
     @Override
@@ -44,12 +53,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(price, user.price);
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(usersCurrencyPrices, user.usersCurrencyPrices);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price);
+        return Objects.hash(id, name, usersCurrencyPrices);
     }
 
     @Override
@@ -57,7 +66,6 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", price=" + price +
                 '}';
     }
 }
