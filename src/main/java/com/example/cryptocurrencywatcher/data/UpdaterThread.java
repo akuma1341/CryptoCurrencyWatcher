@@ -21,7 +21,7 @@ public class UpdaterThread extends Thread{
                 controller.checkPriceChangesForUsers();
                 Thread.sleep(60000);
             } catch (InterruptedException e) {
-                LOGGER.error("UpdaterThread interrupted: " + e.getMessage());
+                LOGGER.error("UpdaterThread interrupted! Reason: " + e.getMessage());
             }
         }
     }
