@@ -1,34 +1,33 @@
 package com.example.cryptocurrencywatcher.entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private long id;
     private String name;
 
-    @OneToMany(mappedBy = "user")
-    private Set<UsersCurrencyPrice> usersCurrencyPrices;
-
-    public User(Integer id, String name, Set<UsersCurrencyPrice> usersCurrencyPrices) {
-        this.id = id;
-        this.name = name;
-        this.usersCurrencyPrices = usersCurrencyPrices;
-    }
+    private Set<UsersCurrencyPrice> usersCurrencyPrice = new HashSet<>();
 
     public User() {
     }
 
-    public Integer getId() {
+    public User(String name) {
+        this.name = name;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -40,12 +39,17 @@ public class User {
         this.name = name;
     }
 
-    public Set<UsersCurrencyPrice> getUsersCurrencyPrices() {
-        return usersCurrencyPrices;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    public Set<UsersCurrencyPrice> getUsersCurrencyPrice() {
+        return usersCurrencyPrice;
     }
 
-    public void setUsersCurrencyPrices(Set<UsersCurrencyPrice> usersCurrencyPrices) {
-        this.usersCurrencyPrices = usersCurrencyPrices;
+    public void setUsersCurrencyPrice(Set<UsersCurrencyPrice> usersCurrencyPrice) {
+        this.usersCurrencyPrice = usersCurrencyPrice;
+    }
+
+    public void addUsersCurrencyPrice(UsersCurrencyPrice usersCurrencyPrice) {
+        this.usersCurrencyPrice.add(usersCurrencyPrice);
     }
 
     @Override
@@ -53,12 +57,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(usersCurrencyPrices, user.usersCurrencyPrices);
+        return id == user.id && Objects.equals(name, user.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, usersCurrencyPrices);
+        return Objects.hash(id, name);
     }
 
     @Override

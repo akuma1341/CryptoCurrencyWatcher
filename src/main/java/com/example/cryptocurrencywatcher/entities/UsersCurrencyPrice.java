@@ -6,45 +6,33 @@ import java.util.Objects;
 @Entity
 @Table(name = "users_currency_prices")
 public class UsersCurrencyPrice {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private Double price;
+    private long id;
+    private double price;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_user")
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_price")
     private CurrencyPrice currencyPrice;
 
-    public UsersCurrencyPrice(Integer id, Double price, User user, CurrencyPrice currencyPrice) {
-        this.id = id;
-        this.price = price;
-        this.user = user;
-        this.currencyPrice = currencyPrice;
-    }
-
-    public UsersCurrencyPrice() {
-    }
-
-    public Integer getId() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
+    @ManyToOne()
+    @JoinColumn(name = "id_user")
     public User getUser() {
         return user;
     }
@@ -53,6 +41,8 @@ public class UsersCurrencyPrice {
         this.user = user;
     }
 
+    @ManyToOne()
+    @JoinColumn(name = "id_price")
     public CurrencyPrice getCurrencyPrice() {
         return currencyPrice;
     }
@@ -65,8 +55,8 @@ public class UsersCurrencyPrice {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UsersCurrencyPrice that = (UsersCurrencyPrice) o;
-        return Objects.equals(id, that.id) && Objects.equals(price, that.price) && Objects.equals(user, that.user) && Objects.equals(currencyPrice, that.currencyPrice);
+        UsersCurrencyPrice price1 = (UsersCurrencyPrice) o;
+        return id == price1.id && Double.compare(price1.price, price) == 0 && Objects.equals(user, price1.user) && Objects.equals(currencyPrice, price1.currencyPrice);
     }
 
     @Override

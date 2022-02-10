@@ -19,4 +19,19 @@ public class UsersCurrencyPricesService {
     public Iterable<UsersCurrencyPrice> findAll() {
         return usersCurrencyPricesRepository.findAll();
     }
+
+    @Transactional
+    public UsersCurrencyPrice findById(long id) {
+        return usersCurrencyPricesRepository.findById(id).get();
+    }
+
+    @Transactional
+    public UsersCurrencyPrice save(UsersCurrencyPrice usersCurrencyPrice) {
+        return usersCurrencyPricesRepository.save(usersCurrencyPrice);
+    }
+
+    @Transactional
+    public void delete(long id) {
+        usersCurrencyPricesRepository.deleteById(id);
+    }
 }

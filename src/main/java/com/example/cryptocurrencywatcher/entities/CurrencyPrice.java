@@ -1,38 +1,37 @@
 package com.example.cryptocurrencywatcher.entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "currency_prices")
 public class CurrencyPrice {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private long id;
     private String symbol;
     private String name;
-    private Double price;
+    private double price;
 
-    @OneToMany(mappedBy = "currencyPrice")
-    private Set<UsersCurrencyPrice> usersCurrencyPrice;
-
-    public CurrencyPrice(Integer id, String symbol, String name, Double price, Set<UsersCurrencyPrice> usersCurrencyPrice) {
-        this.id = id;
-        this.symbol = symbol;
-        this.name = name;
-        this.price = price;
-        this.usersCurrencyPrice = usersCurrencyPrice;
-    }
+    private Set<UsersCurrencyPrice> usersCurrencyPrice = new HashSet<>();
 
     public CurrencyPrice() {
     }
 
-    public Integer getId() {
+    public CurrencyPrice(String symbol, String name, Double price) {
+        this.symbol = symbol;
+        this.name = name;
+        this.price = price;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_price")
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -52,14 +51,15 @@ public class CurrencyPrice {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
+    @OneToMany(mappedBy = "currencyPrice")
     public Set<UsersCurrencyPrice> getUsersCurrencyPrice() {
         return usersCurrencyPrice;
     }
@@ -68,17 +68,21 @@ public class CurrencyPrice {
         this.usersCurrencyPrice = usersCurrencyPrice;
     }
 
+    public void addUsersCurrencyPrices(UsersCurrencyPrice usersCurrencyPrice) {
+        this.usersCurrencyPrice.add(usersCurrencyPrice);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CurrencyPrice that = (CurrencyPrice) o;
-        return Objects.equals(id, that.id) && Objects.equals(symbol, that.symbol) && Objects.equals(name, that.name) && Objects.equals(price, that.price) && Objects.equals(usersCurrencyPrice, that.usersCurrencyPrice);
+        return id == that.id && Double.compare(that.price, price) == 0 && Objects.equals(symbol, that.symbol) && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, symbol, name, price, usersCurrencyPrice);
+        return Objects.hash(id, symbol, name, price);
     }
 
     @Override

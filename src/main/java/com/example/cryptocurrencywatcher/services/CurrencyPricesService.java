@@ -21,8 +21,13 @@ public class CurrencyPricesService {
     }
 
     @Transactional
-    public CurrencyPrice getCurrencyPriceById(int id) {
+    public CurrencyPrice getCurrencyPriceById(long id) {
         return currencyPricesRepository.findById(id).get();
+    }
+
+    @Transactional
+    public CurrencyPrice getCurrencyPriceByIdWithFetch(long id) {
+        return currencyPricesRepository.findByIdWithFetch(id).get();
     }
 
     @Transactional

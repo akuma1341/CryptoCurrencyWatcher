@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>User</title>
+</head>
+<body>
+
+<p>
+  <a href="/users">All users</a>
+</p>
+
+<hr>
+
+<h3>User info</h3>
+
+<p th:text="'ID: ' + ${user.id}">value</p>
+<p th:text="'Name: ' + ${user.name}">value</p>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Symbol</th>
+    <th>Price</th>
+    <th>Option</th>
+  </tr>
+  </thead>
+  <tr th:each="usersPrice : ${user.usersCurrencyPrice}">
+    <td><span th:text="${usersPrice.currencyPrice.name}">Name</span></td>
+    <td><span th:text="${usersPrice.currencyPrice.symbol}">Symbol</span></td>
+    <td><span th:text="${usersPrice.price}">Price</span></td>
+    <td>
+      <form th:method="POST" th:action="@{/usersCurrencyPrice/{id}(id=${usersPrice.id})}">
+        <input type="submit" value="Delete">
+      </form>
+    </td>
+  </tr>
+</table>
+
+<hr>
+
+<span>Add currency</span>
+<form th:method="POST" th:action="@{/users/{id}(id=${user.id})}" th:object="${usersCurrencyPrice}">
+  <p>
+    <label for="currencyPrice">Choose currency: </label>
+    <select th:field="*{currencyPrice}" name="select" id="currencyPrice">
+      <option th:each="price : ${prices}" th:text="${price.symbol}" th:value="${price.id}">Currency</option>
+    </select>
+  </p>
+  <input type="submit" value="Add currency"/>
+</form>
+
+</body>
+</html>

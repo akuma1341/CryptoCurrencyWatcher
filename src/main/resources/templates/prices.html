@@ -11,15 +11,15 @@
 <table border="1" style="width:300px">
   <tr>
     <td>ID</td>
-    <td>Price</td>
-    <td>CurrencyID</td>
+    <td>Name</td>
     <td>Symbol</td>
+    <td>Price</td>
   </tr>
   <tr th:each="price : ${prices}">
     <td th:text="*{price.id}">PriceID</td>
-    <td th:text="*{price.price}">Price</td>
-    <td th:text="*{price.currency.id}">CurrencyID</td>
-    <td th:text="*{price.currency.symbol}">Symbol</td>
+    <td th:text="*{price.name}">Price</td>
+    <td th:text="*{price.symbol}">CurrencyID</td>
+    <td th:text="*{price.price}">Symbol</td>
   </tr>
 </table>
 </body>

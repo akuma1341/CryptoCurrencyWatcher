@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -16,17 +18,27 @@ public class UserService {
     }
 
     @Transactional
-    public Iterable<User> getUsers() {
+    public List<User> getUsers() {
         return userRepository.findAll();
     }
 
     @Transactional
-    public User getUserById(int id) {
+    public User getUserById(long id) {
         return userRepository.findById(id).get();
     }
 
     @Transactional
-    public void saveUser(User user) {
-        userRepository.save(user);
+    public User getUserByIdWithFetch(long id) {
+        return userRepository.findByIdWithFetch(id).get();
+    }
+
+    @Transactional
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public void delete(long id) {
+        userRepository.deleteById(id);
     }
 }

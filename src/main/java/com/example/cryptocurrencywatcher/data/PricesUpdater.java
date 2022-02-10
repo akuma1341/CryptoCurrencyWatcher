@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PricesUpdater implements CurrencyPricesUpdater, ControllerOfPriceChangesForUsers {
+public class PricesUpdater  implements CurrencyPricesUpdater, ControllerOfPriceChangesForUsers{
     private static final Logger LOGGER = LoggerFactory.getLogger(PricesUpdater.class);
     private final String mainURL = "https://api.coinlore.net/api/ticker/?id=";
 
@@ -27,7 +27,7 @@ public class PricesUpdater implements CurrencyPricesUpdater, ControllerOfPriceCh
     @Override
     public void updatePrices() {
         for (CurrencyPrice currencyPrice : currencyPricesService.getCurrencyPrices()) {
-            int currencyId = currencyPrice.getId();
+            long currencyId = currencyPrice.getId();
 
             JSONObject json = JsonReader.readJsonFromUrl(mainURL + currencyId);
             if (json != null) {
